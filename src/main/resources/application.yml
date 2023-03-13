@@ -1,0 +1,51 @@
+server:
+  port: 9051
+  context-path: /
+
+spring:
+  application:
+    name: router-service
+  profiles:
+    active: local
+  r2dbc:
+    properties:
+      schema: route
+  kafka:
+    properties:
+      spring:
+        json:
+          trusted:
+            packages: all
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      properties:
+        spring:
+          json:
+            use:
+              type:
+                headers: false
+            value:
+              default:
+                type: com.fleet.management.tracking.model.TrackingDetails
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+fleet:
+  route:
+    route-topic: router
+    notification-topic: notification
+
+---
+spring:
+  profiles: local
+  r2dbc:
+    url: r2dbc:postgresql://localhost:15432/FleetApp
+    username: postgres
+    password: password
+  kafka:
+    bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+    consumer:
+      group-id: route-service
