@@ -35,14 +35,20 @@ spring:
 
 fleet:
   route:
-    route-topic: router
-    notification-topic: notification
+    producer:
+      retry-count: 3
+      topic:
+        notification-topic: notification
+    consumer:
+      retry-count: 3
+      topic:
+        route-topic: router
 
 ---
 spring:
   profiles: local
   r2dbc:
-    url: r2dbc:postgresql://localhost:15432/FleetApp
+    url: r2dbc:postgresql://localhost:5432/FleetApp
     username: postgres
     password: password
   kafka:

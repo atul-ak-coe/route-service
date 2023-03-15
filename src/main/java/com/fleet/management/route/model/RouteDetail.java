@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.springframework.data.annotation.Id;
 
-import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 @Builder
@@ -18,7 +18,7 @@ public class RouteDetail {
 
     private String routeDesc;
 
-    private List<Coordinate> coordinates;
+    private Map<String, Coordinate> coordinates;
 
     private double distance;
 
