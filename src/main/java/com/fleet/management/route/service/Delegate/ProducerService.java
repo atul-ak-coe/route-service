@@ -20,7 +20,7 @@ public class ProducerService {
     @Value(value = "${fleet.route.producer.topic.notification-topic}")
     private String topic;
 
-    @Value(value = "${fleet.topic.producer.retry-count}")
+    @Value(value = "${fleet.route.producer.retry-count}")
     private long maxRetryCount;
 
     @NotNull
@@ -29,7 +29,6 @@ public class ProducerService {
     public void send(RouteDetail routeDetail) {
         log.info("send to topic={}, {}={},", topic, Object.class.getSimpleName(), routeDetail);
         kafkaProducerTemplate.send(topic, routeDetail)
-                .doOnSuccess(senderResult -> log.info("sent {} offset : {}", routeDetail, senderResult.recordMetadata().offset()))
                 .doOnSuccess(senderResult -> log.info("sent {} offset : {}", routeDetail, senderResult.recordMetadata().offset()))
                 .retryWhen(Retry.backoff(maxRetryCount, Duration.ofMillis(200)).transientErrors(true))
                 .onErrorResume(err -> {
