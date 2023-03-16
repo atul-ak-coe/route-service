@@ -28,7 +28,7 @@ spring:
                 headers: false
             value:
               default:
-                type: com.fleet.management.tracking.model.TrackingDetails
+                type: com.fleet.management.route.model.RouteDetail
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
@@ -42,7 +42,11 @@ fleet:
     consumer:
       retry-count: 3
       topic:
-        route-topic: router
+        route-topic: route
+logging:
+  level:
+    org.springframework: INFO
+    org.apache.kafka: ERROR
 
 ---
 spring:

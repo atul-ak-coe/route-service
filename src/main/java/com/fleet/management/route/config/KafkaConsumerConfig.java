@@ -16,7 +16,7 @@ import java.util.Collections;
 public class KafkaConsumerConfig {
 
     @Bean
-    public ReceiverOptions<String, RouteDetail> kafkaReceiverOptions(@Value(value = "${fleet.route.consumer.topic.router-topic}") String topic, KafkaProperties kafkaProperties) {
+    public ReceiverOptions<String, RouteDetail> kafkaReceiverOptions(@Value(value = "${fleet.route.consumer.topic.route-topic}") String topic, KafkaProperties kafkaProperties) {
         ReceiverOptions<String, RouteDetail> basicReceiverOptions = ReceiverOptions.create(kafkaProperties.buildConsumerProperties());
         return basicReceiverOptions
                 .addAssignListener(assignments -> log.info("Assigned: " + assignments))
